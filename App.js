@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import FavoritesScreen from './screens/FavouritesScreen';
 import { AntDesign,Ionicons } from '@expo/vector-icons'; 
+import FavoritesProvider from './store/favoriteContext';
 
 
 const Stack = createNativeStackNavigator();
@@ -65,7 +66,7 @@ export default function App() {
   return (
     <>
     <StatusBar style='light'/>
-
+    <FavoritesProvider>
     <NavigationContainer>
     <Stack.Navigator screenOptions={myScreen} >
         <Stack.Screen name="MealsCategories" options={{
@@ -86,6 +87,7 @@ export default function App() {
 
     
     </NavigationContainer>
+    </FavoritesProvider>
     </>
   );
 }

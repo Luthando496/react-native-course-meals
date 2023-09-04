@@ -1,16 +1,25 @@
-import React,{useLayoutEffect} from 'react'
+import React,{useLayoutEffect,useContext} from 'react'
 import { View,Text ,Image, ScrollView,Button} from 'react-native'
 import { MEALS } from '../data/dummy-data'
 import IconButton from '../components/IconButton'
+import {FavoritesContext} from '../store/favoriteContext'
 
 
 const MealsDetailsScreen = ({navigation,route}) => {
     const id = route.params.itemId
 
+    const favoriteMealsContext = useContext(FavoritesContext)
+
     const HEADER = MEALS.find((meal)=> meal.id === id)
+    let mealIsFavorite = favoriteMealsContext.ids.includes(id)
 
     const btnPressed = () => {
-        console.log('hello luthando')
+        if(mealIsFavorite){
+            favoriteMealsContext.removeMeal(id)
+        }else{
+            favoriteMealsContext.addMeal(id)
+
+        }
     }
   
     useLayoutEffect(()=>{
@@ -18,12 +27,12 @@ const MealsDetailsScreen = ({navigation,route}) => {
       navigation.setOptions({
           headerRight:()=>{
             return(
-              <IconButton icon={'star'} color={'white'} btnPressed={btnPressed} />
+              <IconButton icon={mealIsFavorite ? 'star' : 'star-outline'} color={'white'} btnPressed={btnPressed} />
             )
           }
       })
   
-    },[navigation])
+    },[navigation ,btnPressed])
 
 
   return (
